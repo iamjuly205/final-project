@@ -4,6 +4,9 @@ import { removeItem, updateQuantity } from "../redux/CartSlice";
 
 const CartItem = () => {
   const dispatch = useDispatch();
+
+  // Nếu CartSlice của bạn dùng state.cart.items thì giữ như này.
+  // Nếu bạn dùng state.cart.cart thì đổi thành: state.cart.cart
   const cartItems = useSelector((state) => state.cart.items);
 
   const handleIncrease = (id, quantity) => {
@@ -18,13 +21,18 @@ const CartItem = () => {
     dispatch(removeItem(id));
   };
 
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+  const totalAmount = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  if (cartItems.length === 0) {
-    return <h2>Your cart is empty</h2>;
+  if (!cartItems || cartItems.length === 0) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h2>Shopping Cart</h2>
+        <p>Your cart is empty.</p>
+      </div>
+    );
   }
 
   return (
@@ -37,9 +45,9 @@ const CartItem = () => {
           style={{
             display: "flex",
             alignItems: "center",
+            gap: "12px",
             borderBottom: "1px solid #ddd",
-            padding: "10px 0",
-            gap: "10px",
+            padding: "12px 0",
           }}
         >
           <img
@@ -49,8 +57,8 @@ const CartItem = () => {
           />
 
           <div style={{ flex: 1 }}>
-            <h4>{item.name}</h4>
-            <p>${item.price.toFixed(2)}</p>
+            <h4 style={{ margin: 0 }}>{item.name}</h4>
+            <p style={{ margin: "6px 0" }}>${item.price.toFixed(2)}</p>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -63,17 +71,12 @@ const CartItem = () => {
             </button>
           </div>
 
-          <button
-            onClick={() => handleRemove(item.id)}
-            style={{ marginLeft: "10px" }}
-          >
-            Remove
-          </button>
+          <button onClick={() => handleRemove(item.id)}>Remove</button>
         </div>
       ))}
 
       <h3 style={{ marginTop: "20px" }}>
-        Total: ${totalPrice.toFixed(2)}
+        Total Amount: ${totalAmount.toFixed(2)}
       </h3>
     </div>
   );
