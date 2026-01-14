@@ -1,8 +1,8 @@
-# Final Project
+# e-plantShopping
 
 ## Project Name
-Company Profile Web Application
+e-plantShopping
 
 ## Description
-This project is a React-based web application that displays company information,
-including an About Us section.
+This is a React-based plant shopping web application that allows users
+to browse plants, add items to a shopping cart, and manage quantities.
